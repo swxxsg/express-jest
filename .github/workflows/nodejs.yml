@@ -22,3 +22,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build --if-present
+      jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install        # 你之前改成了 install，保持即可
+      - run: npm run build --if-present
+      - name: Run tests
+        run: npm test
